@@ -4,7 +4,7 @@ from typing import Dict, Union
 
 def title_match(query: str, title: str) -> bool:
     for word in query.split(" "):
-        if word in title:
+        if word.lower() in title.lower():
             return True        #if a match between a search term and the title is found return true
 
 

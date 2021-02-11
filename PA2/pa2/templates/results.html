@@ -18,13 +18,25 @@
     <input type="text" id="query" name="query" size=50>
     <input type="submit" value="Search">
 </form>
-<dir>
+<div>
 	<ul>
-		{% for match in matches:%}
+		{% for match in matches%}
 		<li>
-			{{match}}
+			<a href="{{url_for('doc_data',doc_id=match[1])}}">{{match[0]}}</a>
+            <br>
+            <p>
+                {{match[2]}}
+            </p>
 		</li>
-	</ul>
-</dir>
+		{% endfor %}
+	</ul> 
+</div>
+{% if page<=maxpages %}
+<form action="{{url_for('next_page',page_id=page) }}" name="Next" method="post">
+    <input type="hidden" value="{{query}}" id="query" name="query" size=50>
+    <input type="submit" value="Next">
+</form>
+{% endif %}
+<button onclick="history.back()">Back</button>
 </body>
 </html>

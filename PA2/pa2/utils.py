@@ -1,10 +1,10 @@
 import os,json
 from typing import Dict, Union
 
-
+# TODO: punctuation
 def title_match(query: str, title: str) -> bool:
-    for word in query.split(" "):
-        if word.lower() in title.lower():
+    for word in query.split():
+        if word.lower() in title.lower().split():
             return True        #if a match between a search term and the title is found return true
 
 
@@ -34,7 +34,7 @@ def load_wapo(wapo_jl_path: Union[str, os.PathLike]) -> Dict[str, Dict]:
             content = ""
             for cont in doc["contents"]:
                 if "subtype" in cont and cont["subtype"] == "paragraph":
-                    content = content +" "+ cont["content"]         #build text content from paragraphs
+                    content = content +"<br><br>"+ cont["content"]         #build text content from paragraphs
             output[doc["id"]] ={                                    #build dictionary for document
                 "id":doc["id"],
                 "title":doc["title"],

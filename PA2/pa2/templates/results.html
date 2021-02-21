@@ -26,12 +26,17 @@
 		{% endfor %}
 	</ul> 
 </div>
-{% if page<=maxpages %}
+{% if page < maxpages %}
 <form action="{{url_for('next_page',page_id=page) }}" name="Next" method="post">
     <input type="hidden" value="{{query}}" id="query" name="query" size=50>
     <input type="submit" value="Next">
 </form>
 {% endif %}
-<button onclick="history.back()">Back</button>
+{% if page>1%}
+<form action="{{url_for('next_page',page_id=prev)}}" name="Prev" method="post">
+    <input type="hidden" value="{{query}}" id="query" name="query" size=50>
+    <input type="submit" value="Prev">
+</form>
+{% endif %}
 </body>
 </html>

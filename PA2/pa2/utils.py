@@ -1,7 +1,15 @@
 import os,json
 from typing import Dict, Union
-
-# TODO: punctuation
+"""
+    Provides utility functions for main app
+    
+    title_match(query: str, title: str) -> bool
+    -   Determines if there is a match between query and document titles
+    
+    def load_wapo(wapo_jl_path: Union[str, os.PathLike]) -> Dict[str, Dict]
+    -   Formats and loads corpus from files 
+    -   returns main document dictionary and title dictionary 
+"""
 def title_match(query: str, title: str) -> bool:
     for word in query.split():
         if word.lower() in title.lower().split():
@@ -34,13 +42,13 @@ def load_wapo(wapo_jl_path: Union[str, os.PathLike]) -> Dict[str, Dict]:
             content = ""
             for cont in doc["contents"]:
                 if "subtype" in cont and cont["subtype"] == "paragraph":
-                    content = content +"<br><br>"+ cont["content"]         #build text content from paragraphs
-            output[doc["id"]] ={                                    #build dictionary for document
+                    content = content +"<br><br>"+ cont["content"]      #build text content from paragraphs
+            output[doc["id"]] ={                                        #build dictionary for document
                 "id":doc["id"],
                 "title":doc["title"],
                 "author":doc["author"],
                 "published_date":doc["published_date"],
                 "content_str": content
             }
-            titles[doc["title"]] = doc["id"]
+            titles[doc["title"]] = doc["id"]           #build titles dictionary
     return titles,output

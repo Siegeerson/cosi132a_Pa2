@@ -78,7 +78,7 @@ def results():
         # tell session that it is modified
         session.modified=True
         print("matches generated from search for results")
-    return render_template("results.html",matches=matches[:min(8,len(matches))],page=1,prev=0,query=query_text,maxpages=len(matches)//8)  # add variables as you wish
+    return render_template("results.html",matches=matches[:min(8,len(matches))],page=1,prev=0,query=query_text,maxpages=len(matches)/8)  # add variables as you wish
 
 # Current iteration of next page--> re-does search with a different page #
 @app.route("/results/<int:page_id>", methods=["POST"])
@@ -115,8 +115,9 @@ def next_page(page_id):
         print(f"matches generated for page {page_id}")
     else:
         matches = session[query_text.lower()] # grab matches from session cache
-        print(f"matches retrieved from session for page {page_id}")
-    return render_template("results.html",matches=matches[8*page_id:min(len(matches),8*(page_id+1))],page=page_id+1,prev=page_id-1,query=query_text,maxpages=len(matches)//8)  # add variables as you wish
+        print(f"{len(matches)} matches retrieved from session for page {page_id}")
+
+    return render_template("results.html",matches=matches[8*page_id:min(len(matches),8*(page_id+1))],page=page_id+1,prev=page_id-1,query=query_text,maxpages=len(matches)/8)  # need to only do / to catch less than full next page
 
 
 @app.route("/doc_data/<doc_id>")

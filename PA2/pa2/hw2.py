@@ -1,7 +1,7 @@
 from pathlib import Path
 from flask import Flask, render_template, request, Markup,session
 from utils import title_match, load_wapo
-import time
+import time,sys
 app = Flask(__name__)
 data_dir = Path("pa2_data")
 wapo_path = data_dir.joinpath("wapo_pa2.jl")
@@ -72,6 +72,7 @@ def results():
                 snipit = doc["content_str"][:150]
                 # add match to match results 
                 matches.append((title,doc_id,snipit))
+        print(sys.getsizeof(str(matches)))
         # add match to cache
         session[query_text.lower()] = matches
         # tell session that it is modified
@@ -111,7 +112,6 @@ def next_page(page_id):
         session[query_text.lower()] = matches
         # tell session that it is modified
         session.modified=True
-        print("cookies either deleted or not allowed")
         print(f"matches generated for page {page_id}")
     else:
         matches = session[query_text.lower()] # grab matches from session cache
